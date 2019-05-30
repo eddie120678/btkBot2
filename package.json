@@ -21,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/eddie120678/btkBot2/issues"
   },
-  "homepage": "https://github.com/eddie120678/btkBot2#readme"
+  "homepage": "https://github.com/eddie120678/btkBot2#readme",
+  "dependencies": {
+    "discord.js": "^11.5.1"
+  }
 }
