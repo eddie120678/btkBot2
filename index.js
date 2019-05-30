@@ -10,9 +10,10 @@ bot.on("ready", () => {
 bot.on("message", async (message) => {
   if(message.author.bot) return;
   let prefix = config.prefix;
+  if (!message.content.startsWith(prefix)) return;
 
   let args = message.content.slice(prefix.length).trim().split(/ +/)
-  let cmd = args.shift().tolowerCase();
+  let cmd = args.shift().toLowerCase();
 
   if(cmd ==="ping") {
     let botping = new Date() - message.createdAt
