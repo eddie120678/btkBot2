@@ -9,6 +9,7 @@ module.exports.command = {
 }
 
 module.exports.run = (bot, message, args) => {
+  
       let botping =  message.createdAt - new Date()
       let apiping = bot.ping
 

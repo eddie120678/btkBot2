@@ -8,6 +8,6 @@ module.exports.command = {
   usage: ""
 }
 
-module.exports.run = (bot, message, args) => {
+module.exports.run = async (bot, message, args) => {
 
 }

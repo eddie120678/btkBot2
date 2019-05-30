@@ -8,7 +8,7 @@ module.exports.command = {
   usage: "kick @<someone>"
 }
 
-module.exports.run = (bot, message, args) => {
+module.exports.run = async (bot, message, args) => {
 
 if(!message.member.roles.some(r => ["Admin","Officers"].includes(r.name))) return message.reply("You don't have the moderator role!");
 
@@ -21,4 +21,5 @@ if(!message.member.roles.some(r => ["Admin","Officers"].includes(r.name))) retur
       return message.reply("there was an error try again!")
     })
     return message.channel.send(`${member.user.tag} was kicked by ${message.author.tag}! Reason: ${reason}`);
+
 }
