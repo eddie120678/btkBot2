@@ -19,6 +19,8 @@ bot.on("message", async (message) => {
     let apiping = bot.ping
 
     return message.channel.send(`bot ping: ${botping}ms\nApi ping: ${apiping}ms`)
+  }else if(cmd ==="kick"){
+    
   }
 });
 
