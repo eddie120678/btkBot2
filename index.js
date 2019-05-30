@@ -20,8 +20,30 @@ bot.on("message", async (message) => {
 
     return message.channel.send(`bot ping: ${botping}ms\nApi ping: ${apiping}ms`)
   }else if(cmd ==="kick"){
-    
-  }
+    if(!message.member.roles.some(r => ["Admin","Officers"].includes(r.name))) return message.reply("You don't have the moderator role!");
+
+    let member = message.mentions.members.first() || message.guild.members.get(args[0])
+    if (!member) return message.reply("this is an invalid user!");
+    if(!member.kickable) return message.reply("That person has more power than me I can't do it");
+    let reason = args.slice(1).join(" ");
+
+    await member.kick().catch(error => {
+      return message.reply("there was an error try again!")
+    })
+    return message.channel.send(`${member.user.tag} was kicked by ${message.author.tag}! Reason: ${reason}`);
+  }else if(cmd ==="ban"){
+  if(!message.member.roles.some(r => ["Admin","Officers"].includes(r.name))) return message.reply("You don't have the moderator role!");
+
+  let member = message.mentions.members.first() || message.guild.members.get(args[0])
+  if (!member) return message.reply(`this '${member}' is an invalid user!`);
+  if(!member.bannable) return message.reply("That person has more power than me I can't do it");
+  let reason = args.slice(1).join(" ");
+
+  await member.ban().catch(error => {
+    return message.reply("there was an error try again!")
+  })
+  return message.channel.send(`${member.user.tag} was banned by ${message.author.tag}! Reason: ${reason}`);
+}
 });
 
 bot.login(config.token);
