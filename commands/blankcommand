@@ -1,0 +1,13 @@
+const Discord = require("discord.js");
+
+module.exports.command = {
+  name: "",
+  aliases: [""],
+  description: "",
+  category: "utility",
+  usage: ""
+}
+
+module.exports.run = (bot, message, args) => {
+
+}
