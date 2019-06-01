@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/eddie120678/btkBot2#readme",
   "dependencies": {
-    "discord.js": "^11.5.1"
+    "discord.js": "^11.5.1",
+    "mongoose": "^5.5.12"
   }
 }
