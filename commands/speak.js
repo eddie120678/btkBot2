@@ -4,7 +4,7 @@ module.exports.command = {
   name: "speak",
   aliases: ["tell"],
   description: "tell a roll (like notify) that something is going down",
-  category: "Moderatioin",
+  category: "Moderation",
   usage: "speak @<role> message you want to say"
 }
 

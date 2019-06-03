@@ -8,7 +8,7 @@ module.exports.command = {
   aliases: ["money","bal","balance"],
   description: "see how many coins you have",
   category: "games",
-  usage: ""
+  usage: "coins"
 }
 
 module.exports.run = async (bot, message, args) => {
