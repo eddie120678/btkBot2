@@ -17,7 +17,6 @@ module.exports.run = async (bot, message, args) => {
 
   Money.findOne({
     userID: message.author.id,
-    userName: message.author.username,
     serverID: message.guild.id
   }, (err, money) => {
     if(err) console.log(err);
@@ -30,6 +29,7 @@ module.exports.run = async (bot, message, args) => {
     if(!money){
       embed.addField('Coins', '0', true);
       return message.channel.send(embed);
+
     }else {
       embed.addField('Coins', money.money, true);
       return message.channel.send(embed);

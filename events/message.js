@@ -12,10 +12,12 @@ bot.on("message", async (message) => {
   let cmd = args.shift().toLowerCase();
 
   let command;
+
   if(bot.commands.has(cmd)){
     command = bot.commands.get(cmd)
   }else if(bot.aliases.has(cmd)){
     command = bot.commands.get(bot.aliases.get(cmd))
+
   }else{
     let coinstoadd = Math.ceil(Math.random() * 50);
     console.log(coinstoadd + ' coins');
