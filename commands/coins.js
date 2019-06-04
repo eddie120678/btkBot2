@@ -7,7 +7,7 @@ module.exports.command = {
   name: "coins",
   aliases: ["money","bal","balance"],
   description: "see how many coins you have",
-  category: "games",
+  category: "Monetary",
   usage: "coins"
 }
 

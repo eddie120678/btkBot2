@@ -2,9 +2,9 @@ const Discord = require("discord.js");
 
 module.exports.command = {
   name: "say",
-  aliases: [],
+  aliases: [""],
   description: "get bender to say something for you",
-  category: "fun",
+  category: "Fun & Games",
   usage: "say <message>"
 }
 
