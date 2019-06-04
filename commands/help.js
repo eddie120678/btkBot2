@@ -23,6 +23,7 @@ module.exports.run = async (bot, message, args) => {
               },[]).sort()
 
     embed.setAuthor("Commands List",message.author.avatarURL)
+    embed.setDescription("Command usage info do\n 'help <command>'")
     categories.forEach(c => {
       let commands = bot.commands.filter(
         command => command.command.category == c
