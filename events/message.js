@@ -4,12 +4,16 @@ const config = require("../config")
 const Money = require("../models/money")
 
 bot.on("message", async (message) => {
-  if(message.author.bot) return;
-  let prefix = config.prefix;
-  if (!message.content.startsWith(prefix)) return;
 
-  let args = message.content.slice(prefix.length).trim().split(/ +/)
-  let cmd = args.shift().toLowerCase();
+  if(message.author.bot) return;
+  if(message.channel.type === "dm") return;
+
+  let prefix = config.prefix;
+
+  let messageArray = message.content.split(" ");
+  let cmd = messageArray[0];
+  
+  let args = messageArray.slice(1);
 
   let command;
 
@@ -17,7 +21,9 @@ bot.on("message", async (message) => {
     command = bot.commands.get(cmd)
   }else if(bot.aliases.has(cmd)){
     command = bot.commands.get(bot.aliases.get(cmd))
-
+  }else if(message.content.startsWith(prefix)){
+    let commandfile = bot.commands.get(cmd.slice(prefix.length));
+    if(commandfile) commandfile.run(bot,message,args);
   }else{
     let coinstoadd = Math.ceil(Math.random() * 50);
     console.log(coinstoadd + ' coins');
@@ -41,11 +47,4 @@ bot.on("message", async (message) => {
         }
       })
   }
-
-  try {
-    command.run(bot, message, args);
-  } catch (err) {
-    console.log(err);
-  }
-
 });
