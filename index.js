@@ -18,7 +18,7 @@ loadEvents();
 * minute instead of three.                                     *
 ***************************************************************/
 setInterval(() => (checkTime(12, 0, "Mongolians are knocking on your door!")),60000); //check time every min if it is time to post message
-setInterval(() => (checkTime(20, 55, "Kill Galdan")),60000);
+setInterval(() => (checkTime(20, 53, "Kill Galdan")),60000);
 setInterval(() => (checkTime(21, 30, "Check your cabinet and event")),60000);
 
 // function for the interval gets hour and min and sends message to main channel
@@ -30,7 +30,17 @@ if(date.getHours() === checkHour && date.getMinutes() === checkMinute)// check t
   {
   bot.guilds.forEach(g => {
     let channel =  g.channels.find(c => c.name === 'general');
-    g.channel.send(whatToDo);// post message to channel
+    let nRole = channel.roles.find(r => r.name === "Notify");
+    nRole.members.forEach(m => {
+
+      try{
+        m.send(whatToDo)
+      }catch(e){
+          g.channel.send(`${m} has dm blocked`)
+          console.log(e)
+        }
+      })
+    g.channel.send(whatToDo);// post message to channel bah
     })
 
   console.log("It's going down");
