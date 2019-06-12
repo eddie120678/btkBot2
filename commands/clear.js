@@ -14,7 +14,7 @@ module.exports.run = (bot, message, args) => {
   if(!args[0]) return message.channel.send("Did you want me to do something. You might want to put a 1 and a couple zeros in front of that");
 
   try{
-    message.channel.bulkDelete(args[0] + 1).then(() => {
+    message.channel.bulkDelete(args[0]).then(() => {
     message.channel.send(`Cleard ${args[0]} messages.`).then(msg => msg.delete(5000));
     });
   }

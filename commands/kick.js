@@ -4,13 +4,13 @@ module.exports.command = {
   name: "kick",
   aliases: ["k"],
   description: "to kick some mofo out the chat",
-  category: "utility",
+  category: "Moderation",
   usage: "kick @<someone>"
 }
 
 module.exports.run = async (bot, message, args) => {
 
-if(!message.member.hasPermission("MANAGE_MESSAGES"))return message.reply("You don't have the Authority!");
+    if(!message.member.hasPermission("MANAGE_MESSAGES"))return message.reply("You don't have the Authority!");
 
     let member = message.mentions.members.first() || message.guild.members.get(args[0])
     if (!member) return message.reply("this is an invalid user!");

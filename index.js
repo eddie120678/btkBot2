@@ -1,55 +1,87 @@
 const Discord = require('discord.js');
 const bot = new Discord.Client({disableEveryone:true});
 const config = require("./config.json");
+const fs = require('fs');
+bot.commands = new Discord.Collection();
+const mongoose = require('mongoose')
+mongoose.connect('mongodb://localhost:27017/Tutorial', {useNewUrlParser: true});
+const Money = require('./models/money.js');
 
-module.exports = bot;
+fs.readdir("./commands/", (err, files) => {
+  if(err) console.log(err);
 
-const defaultsettings = require("./util/defaultsettings");
-
-const {loadCommands, loadEvents} = require("./util/handler");
-loadCommands();
-loadEvents();
-
-/***************************************************************
-* Interval events at 12, 8 pm and 930 pm                       *
-* to let people in chat that game events are happening         *
-* currently have 3 checktimes however will probably change     *
-* to a case switch later so that bot only checks time once per *
-* minute instead of three.                                     *
-***************************************************************/
-setInterval(() => (checkTime(12, 0, "Mongolians are knocking on your door!")),60000); //check time every min if it is time to post message
-setInterval(() => (checkTime(20, 53, "Kill Galdan")),60000);
-setInterval(() => (checkTime(21, 30, "Check your cabinet and event")),60000);
-
-// function for the interval gets hour and min and sends message to main channel
-
-function checkTime(checkHour, checkMinute, whatToDo)// function for setInterval to check the time and send a message
-{
-var date = new Date();
-if(date.getHours() === checkHour && date.getMinutes() === checkMinute)// check time against date
-  {
-  bot.guilds.forEach(g => {
-    let channel =  g.channels.find(c => c.name === 'general');
-    let nRole = channel.roles.find(r => r.name === "Notify");
-    nRole.members.forEach(m => {
-
-      try{
-        m.send(whatToDo)
-      }catch(e){
-          g.channel.send(`${m} has dm blocked`)
-          console.log(e)
-        }
-      })
-    g.channel.send(whatToDo);// post message to channel bah
-    })
-
-  console.log("It's going down");
-  }
-  else
-  {
-    console.log("checked time " + date.getHours() + date.getMinutes() );
-  }//if it is not time for event we will state the time
-  return;
+  let jsfile = files.filter(f => f.split(".").pop() === "js")
+  if(jsfile.length <= 0){
+    consol.log("Couldn't find commands.");
+    return;
   }
 
-bot.login(config.token);
+  jsfile.forEach((f,i) =>{
+    let props = require(`./commands/${f}`);
+    console.log(`${f} loaded!`);
+    bot.commands.set(props.command.name, props);
+  });
+});
+
+bot.on('ready', async() => {
+
+    // D.JS Client listeners
+    bot.on('error', () => {}); // WS Errors can just be ignored
+    bot.on('reconnecting', () => console.log('Reconnecting WS...'));
+    bot.on('disconnect', () => {
+      console.log('Disconnected, trying to restart...');
+      process.exit();
+    });
+    // NodeJS process listeners
+    process.on('unhandledRejection', console.error)
+    process.on('warning', console.warn)
+
+      console.log(`${bot.user.username} is online!`);
+
+       bot.user.setActivity(`use ?help`); //sets the bot's activity this shows everyone the proper help command
+
+});
+
+bot.on('message', async(message) => {
+
+  if(message.author.bot) return;
+  // don't listen to other bots
+  if(message.channel.type === 'dm') return;
+  // don't listen to people dm'ing the bot
+
+
+    let prefix = config.prefix;
+    let messageArray = message.content.split(" ");
+    let cmd = messageArray[0];
+    let args = messageArray.slice(1);
+
+    if(message.content.startsWith(prefix)){
+      let commandfile = bot.commands.get(cmd.slice(prefix.length));
+      if(commandfile) commandfile.run(bot,message,args);
+    } else{
+      let coinstoadd = Math.ceil(Math.random() * 50);
+      console.log(coinstoadd + ' coins');
+      Money.findOne({
+        userID: message.author.id,
+        serverID: message.guild.id
+      }, (err, money) => {
+          if(err) console.log(err);
+          if(!money){
+            const newMoney = new Money({
+              userID: message.author.id,
+              userName: message.author.username,
+              serverID: message.guild.id,
+              money: coinstoadd
+            })
+
+            newMoney.save().catch(err => console.log(err));
+          }else{
+            money.money = money.money + coinstoadd;
+            money.save().catch(err => console.log(err));
+          }
+        })
+    }
+})
+
+
+bot.login(config.token); // this token needs to be kept secret

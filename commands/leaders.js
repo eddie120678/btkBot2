@@ -7,7 +7,7 @@ module.exports.command = {
   name: "leaders",
   aliases: ["leaderboard","top"],
   description: "Shows who has the most money",
-  category: "utility",
+  category: "Monetary",
   usage: "leaders"
 }
 

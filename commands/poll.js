@@ -31,8 +31,8 @@ module.exports.run = async (bot, message, args) => {
   let msg = await message.channel.send(embed);
 
   //react to the message
-  await msg.react('👍'); // using await here will make sure the first one runs before the second
-  await msg.react('🖕');
+  await msg.react('❌'); // using await here will make sure the first one runs before the second
+  await msg.react('✔');
 
   // Make sure you delete the original message
   message.delete({timeout: 1000}); // Theis waits 1 second before delete

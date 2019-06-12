@@ -16,8 +16,8 @@ module.exports.run = async (bot, message, args) => {
   coin = Math.floor(Math.random() * 10);
   console.log('the coin is ', coin)
   if(coin > 4){
-    return message.channel.send("The coin landed on HEADS!")
+    return message.channel.send("It's HEADS!")
   }else{
-    return message.channel.send("The coin landed on TAILS!")
+    return message.channel.send("It's TAILS!")
   }
 }
